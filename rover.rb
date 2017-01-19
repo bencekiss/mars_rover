@@ -1,3 +1,5 @@
+require './mc.rb'
+
 $max_x = 0
 $max_y = 0
 
@@ -103,17 +105,10 @@ $max_x = max[0].to_i
 $max_y = max[1].to_i
 puts "The size of the plateau is #{$max_x} by #{$max_y}"
 
-2.times do
+puts "How many rovers do you want to instruct?"
+n = gets.gsub(/\s+/, "").to_i
 
-  puts "Please give me the initial position and direction of the rover!"
-  position = gets.gsub(/\s+/, "")
-  rover = Rover.new(position[0].to_i, position[1].to_i, position[2].upcase)
-
-  rover.output
-
-  puts "Please give me the instructions!"
-  instructions = gets.gsub(/\s+/, "")
-  instructions = instructions.upcase.split(//)
-  rover.read_instruction(instructions)
-  rover.output
+n.times do
+  mc = MissionControl.new()
+  mc.do_it
 end

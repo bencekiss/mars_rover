@@ -41,7 +41,7 @@ class Plateau
 
   def out_of_bounds(r)
     if (r.x_coord > @max_x) || (r.x_coord < 0) || (r.y_coord > @max_y) || (r.y_coord < 0)
-      puts "The rover is out of bounds"
+      puts "The rover is out of bounds at #{ r.x_coord } #{ r.y_coord }"
       return true
     end
     return false

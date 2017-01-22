@@ -65,33 +65,16 @@ class Rover
   def move(p)
     case @direction
     when "N"
-      if p.check(self)
-        @y_coord += 1
-        p.update_position(self)
-      else
-        raise "Incorrect y_coord data"
-      end
+      @y_coord += 1
     when "S"
-      if p.check(self)
-        @y_coord -= 1
-        p.update_position(self)
-      else
-        raise "Incorrect y_coord data"
-      end
+      @y_coord -= 1
     when "E"
-      if p.check(self)
-        @x_coord += 1
-        p.update_position(self)
-      else
-        raise "Incorrect x_coord data"
-      end
+      @x_coord += 1
     when "W"
-      if p.check(self)
-        @x_coord -= 1
-        p.update_position(self)
-      else
-        raise "Incorrect x_coord data"
-      end
+      @x_coord -= 1
+    end
+    unless p.check(self)
+      raise "Incorrect input data. "
     end
 
   end

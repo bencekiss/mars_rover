@@ -1,9 +1,9 @@
 require './mc.rb'
+require './plateau.rb'
 
-$max_x = 0
-$max_y = 0
 
 class Rover
+  attr_accessor :x_coord, :y_coord, :direction
 
   def initialize(x_coord, y_coord, direction)
     @x_coord   = x_coord
@@ -13,13 +13,13 @@ class Rover
 
   end
 
-  def read_instruction(instructions)
+  def read_instruction(plateau, instructions)
 
     instructions.each do |i|
       if i == "L" || i == "R"
         turn(i)
       else
-        move
+        move(plateau)
       end
     end
   end
@@ -62,31 +62,35 @@ class Rover
     @direction
   end
 
-  def move
+  def move(p)
     case @direction
     when "N"
-      if @y_coord >= $max_y
-        raise "Incorrect y_coord data"
-      else
+      if p.check(self)
         @y_coord += 1
+        p.update_position(self)
+      else
+        raise "Incorrect y_coord data"
       end
     when "S"
-      if @y_coord <= 0
-        raise "Incorrect y_coord data"
-      else
+      if p.check(self)
         @y_coord -= 1
+        p.update_position(self)
+      else
+        raise "Incorrect y_coord data"
       end
     when "E"
-      if @x_coord >= $max_x
-        raise "Incorrect x_coord data"
-      else
+      if p.check(self)
         @x_coord += 1
+        p.update_position(self)
+      else
+        raise "Incorrect x_coord data"
       end
     when "W"
-      if @x_coord <= 0
-        raise "Incorrect x_coord data"
-      else
+      if p.check(self)
         @x_coord -= 1
+        p.update_position(self)
+      else
+        raise "Incorrect x_coord data"
       end
     end
 
@@ -101,14 +105,20 @@ end
 
 puts "Please give me the size of the plateau!"
 max = gets.gsub(/\s+/, "")
-$max_x = max[0].to_i
-$max_y = max[1].to_i
-puts "The size of the plateau is #{$max_x} by #{$max_y}"
+plateau = Plateau.new(max[0].to_i, max[1].to_i)
+
+puts "The size of the plateau is #{ plateau.max_x } by #{ plateau.max_y }"
 
 puts "How many rovers do you want to instruct?"
 n = gets.gsub(/\s+/, "").to_i
 
 n.times do
   mc = MissionControl.new()
-  mc.do_it
+  mc.do_it(plateau)
+  # rover = Rover.new(mc.x_init, mc.y_init, mc.directions)
+  # plateau.add_rover(rover)
+  # rover.output
+  # rover.read_instruction(mc.instructions)
+  # rover.output
+
 end

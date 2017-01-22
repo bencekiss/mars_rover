@@ -1,4 +1,5 @@
 # require './rover.rb'
+require './plateau.rb'
 
 class MissionControl
   attr_reader :x_init, :y_init, :directions, :instructions
@@ -17,10 +18,12 @@ class MissionControl
   end
 
 
-  def do_it
+  def do_it(p)
+
     rover = Rover.new(@x_init, @y_init, @directions)
+    Plateau.add_rover(rover)
     rover.output
-    rover.read_instruction(@instructions)
+    rover.read_instruction(p, @instructions)
     rover.output
   end
 
